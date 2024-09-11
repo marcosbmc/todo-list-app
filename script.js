@@ -2,7 +2,8 @@ let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
 
 function addTask() {
   const taskInput = document.getElementById('taskInput');
-  const dueDateInput = document.getElementById('dueDateInput');
+  const dateInput = document.getElementById('dateInput');
+  const timeInput = document.getElementById('timeInput');
   const priorityInput = document.getElementById('priorityInput');
   const categoryInput = document.getElementById('categoryInput');
 
@@ -11,7 +12,8 @@ function addTask() {
       id: Date.now(),
       text: taskInput.value,
       completed: false,
-      dueDate: dueDateInput.value,
+      date: dateInput.value,
+      time: timeInput.value,
       priority: priorityInput.value,
       category: categoryInput.value
     };
@@ -20,6 +22,8 @@ function addTask() {
     saveTasks();
     renderTasks();
     taskInput.value = '';
+    dateInput.value = '';
+    timeInput.value = '';
   }
 }
 
@@ -31,7 +35,7 @@ function renderTasks() {
     const li = document.createElement('li');
     li.innerHTML = `
             <span class="${task.completed ? 'completed' : ''}">${task.text}</span>
-            <span>${task.dueDate}</span>
+            <span>${task.date} ${task.time}</span>
             <span>${task.priority}</span>
             <span>${task.category}</span>
             <button onclick="toggleTask(${task.id})">Toggle</button>
@@ -67,7 +71,8 @@ function searchTasks() {
 
   const filteredTasks = tasks.filter(task =>
     task.text.toLowerCase().includes(searchTerm) ||
-    task.category.toLowerCase().includes(searchTerm)
+    task.category.toLowerCase().includes(searchTerm) ||
+    task.priority.toLowerCase().includes(searchTerm)
   );
 
   renderFilteredTasks(filteredTasks);
@@ -81,7 +86,7 @@ function renderFilteredTasks(filteredTasks) {
     const li = document.createElement('li');
     li.innerHTML = `
             <span class="${task.completed ? 'completed' : ''}">${task.text}</span>
-            <span>${task.dueDate}</span>
+            <span>${task.date} ${task.time}</span>
             <span>${task.priority}</span>
             <span>${task.category}</span>
             <button onclick="toggleTask(${task.id})">Toggle</button>
@@ -95,5 +100,8 @@ function renderFilteredTasks(filteredTasks) {
 document.getElementById('toggleTheme').addEventListener('click', function () {
   document.body.classList.toggle('dark-mode');
 });
+
+document.getElementById('addTask').addEventListener('click', addTask);
+document.getElementById('searchButton').addEventListener('click', searchTasks);
 
 renderTasks();

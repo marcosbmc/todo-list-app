@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>To-Do List App</title>
+    <title>To-Do List</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -11,24 +12,30 @@
         <h1>To-Do List</h1>
         <div class="task-input">
             <input type="text" id="taskInput" placeholder="Add new task...">
-            <input type="date" id="dueDateInput">
-            <select id="priorityInput">
-                <option value="low">Low</option>
-                <option value="medium">Medium</option>
-                <option value="high">High</option>
-            </select>
-            <select id="categoryInput">
-                <option value="personal">Personal</option>
-                <option value="work">Work</option>
-                <option value="study">Study</option>
-            </select>
-            <button onclick="addTask()">Add</button>
+            <div class="task-details">
+                <input type="date" id="dateInput">
+                <input type="time" id="timeInput">
+                <select id="priorityInput">
+                    <option value="low">Low</option>
+                    <option value="medium">Medium</option>
+                    <option value="high">High</option>
+                </select>
+                <select id="categoryInput">
+                    <option value="personal">Personal</option>
+                    <option value="work">Work</option>
+                    <option value="shopping">Shopping</option>
+                </select>
+            </div>
+            <button id="addTask">Add</button>
         </div>
-        <div class="task-filters">
-            <input type="text" id="searchInput" placeholder="Search tasks...">
-            <button onclick="searchTasks()">Search</button>
+        
+        <div class="task-list">
+            <div class="task-search">
+                <input type="text" id="searchInput" placeholder="Search tasks...">
+                <button id="searchButton">Search</button>
+            </div>
+            <ul id="taskList"></ul>
         </div>
-        <ul id="taskList"></ul>
     </div>
     <button id="toggleTheme">Toggle Theme</button>
     <script src="script.js"></script>
