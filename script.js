@@ -1,26 +1,99 @@
+let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+
 function addTask() {
-  var taskInput = document.getElementById("taskInput");
-  var taskList = document.getElementById("taskList");
+  const taskInput = document.getElementById('taskInput');
+  const dueDateInput = document.getElementById('dueDateInput');
+  const priorityInput = document.getElementById('priorityInput');
+  const categoryInput = document.getElementById('categoryInput');
 
-  if (taskInput.value !== "") {
-    var li = document.createElement("li");
-    li.textContent = taskInput.value;
-
-    var deleteButton = document.createElement("button");
-    deleteButton.textContent = "Delete";
-    deleteButton.onclick = function () {
-      taskList.removeChild(li);
+  if (taskInput.value.trim() !== '') {
+    const newTask = {
+      id: Date.now(),
+      text: taskInput.value,
+      completed: false,
+      dueDate: dueDateInput.value,
+      priority: priorityInput.value,
+      category: categoryInput.value
     };
 
-    li.appendChild(deleteButton);
-    taskList.appendChild(li);
-    taskInput.value = "";
+    tasks.push(newTask);
+    saveTasks();
+    renderTasks();
+    taskInput.value = '';
   }
 }
 
-// Optional: Add task when Enter key is pressed
-document.getElementById("taskInput").addEventListener("keypress", function (event) {
-  if (event.key === "Enter") {
-    addTask();
+function renderTasks() {
+  const taskList = document.getElementById('taskList');
+  taskList.innerHTML = '';
+
+  tasks.forEach(task => {
+    const li = document.createElement('li');
+    li.innerHTML = `
+            <span class="${task.completed ? 'completed' : ''}">${task.text}</span>
+            <span>${task.dueDate}</span>
+            <span>${task.priority}</span>
+            <span>${task.category}</span>
+            <button onclick="toggleTask(${task.id})">Toggle</button>
+            <button onclick="deleteTask(${task.id})">Delete</button>
+        `;
+    li.classList.add(`${task.priority}-priority`);
+    taskList.appendChild(li);
+  });
+}
+
+function toggleTask(id) {
+  const task = tasks.find(task => task.id === id);
+  if (task) {
+    task.completed = !task.completed;
+    saveTasks();
+    renderTasks();
   }
+}
+
+function deleteTask(id) {
+  tasks = tasks.filter(task => task.id !== id);
+  saveTasks();
+  renderTasks();
+}
+
+function saveTasks() {
+  localStorage.setItem('tasks', JSON.stringify(tasks));
+}
+
+function searchTasks() {
+  const searchInput = document.getElementById('searchInput');
+  const searchTerm = searchInput.value.toLowerCase();
+
+  const filteredTasks = tasks.filter(task =>
+    task.text.toLowerCase().includes(searchTerm) ||
+    task.category.toLowerCase().includes(searchTerm)
+  );
+
+  renderFilteredTasks(filteredTasks);
+}
+
+function renderFilteredTasks(filteredTasks) {
+  const taskList = document.getElementById('taskList');
+  taskList.innerHTML = '';
+
+  filteredTasks.forEach(task => {
+    const li = document.createElement('li');
+    li.innerHTML = `
+            <span class="${task.completed ? 'completed' : ''}">${task.text}</span>
+            <span>${task.dueDate}</span>
+            <span>${task.priority}</span>
+            <span>${task.category}</span>
+            <button onclick="toggleTask(${task.id})">Toggle</button>
+            <button onclick="deleteTask(${task.id})">Delete</button>
+        `;
+    li.classList.add(`${task.priority}-priority`);
+    taskList.appendChild(li);
+  });
+}
+
+document.getElementById('toggleTheme').addEventListener('click', function () {
+  document.body.classList.toggle('dark-mode');
 });
+
+renderTasks();

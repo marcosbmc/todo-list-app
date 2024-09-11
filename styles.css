@@ -1,35 +1,50 @@
 body {
   font-family: Arial, sans-serif;
-  background-color: #f4f4f4;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
   margin: 0;
-  padding: 20px;
+  background-color: #f0f0f0;
+  transition: background-color 0.3s ease;
 }
 
 .container {
-  max-width: 500px;
-  margin: 0 auto;
   background-color: white;
   padding: 20px;
-  border-radius: 5px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  width: 80%;
+  max-width: 600px;
 }
 
 h1 {
   text-align: center;
+  color: #333;
 }
 
-input[type="text"] {
-  width: 70%;
+.task-input, .task-filters {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+input, select, button {
   padding: 10px;
-  margin-right: 10px;
+  margin-right: 5px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
 }
 
 button {
-  padding: 10px 20px;
   background-color: #4CAF50;
   color: white;
   border: none;
   cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #45a049;
 }
 
 ul {
@@ -39,7 +54,80 @@ ul {
 
 li {
   background-color: #f9f9f9;
+  margin: 5px 0;
   padding: 10px;
-  margin-top: 10px;
-  border-radius: 3px;
+  border-radius: 4px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background-color 0.3s ease;
+}
+
+li:hover {
+  background-color: #f0f0f0;
+}
+
+.completed {
+  text-decoration: line-through;
+  color: #888;
+}
+
+.delete {
+  color: #ff4444;
+  cursor: pointer;
+}
+
+.high-priority {
+  border-left: 5px solid #ff4444;
+}
+
+.medium-priority {
+  border-left: 5px solid #ffbb33;
+}
+
+.low-priority {
+  border-left: 5px solid #00C851;
+}
+
+/* Tema escuro */
+body.dark-mode {
+  background-color: #333;
+  color: #fff;
+}
+
+body.dark-mode .container {
+  background-color: #444;
+}
+
+body.dark-mode h1 {
+  color: #fff;
+}
+
+body.dark-mode li {
+  background-color: #555;
+}
+
+body.dark-mode li:hover {
+  background-color: #666;
+}
+
+#toggleTheme {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+@media (max-width: 600px) {
+  .container {
+      width: 95%;
+  }
+  
+  .task-input, .task-filters {
+      flex-direction: column;
+  }
+  
+  input, select, button {
+      width: 100%;
+      margin-bottom: 10px;
+  }
 }
